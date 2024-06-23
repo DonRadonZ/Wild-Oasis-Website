@@ -1,5 +1,7 @@
 import { eachDayOfInterval } from 'date-fns';
 import { supabase } from './supabase';
+import { Booking } from '../_components/ReservationCard';
+import { notFound } from 'next/navigation';
 
 interface IGuest {
   id?: number;
@@ -26,6 +28,7 @@ export async function getCabin(id: string) {
 
   if (error) {
     console.error(error);
+    notFound()
   }
 
   return data;
@@ -50,7 +53,7 @@ export const getCabins = async function () {
     .from('cabins')
     .select('id, name, maxCapacity, regularPrice, discount, image')
     .order('name');
-
+    
   if (error) {
     console.error(error);
     throw new Error('Cabins could not be loaded');
@@ -171,7 +174,7 @@ export async function createGuest(newGuest: IGuest) {
   return data;
 }
 
-export async function createBooking(newBooking) {
+export async function createBooking(newBooking: Booking) {
   const { data, error } = await supabase
     .from('bookings')
     .insert([newBooking])
