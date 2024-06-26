@@ -1,6 +1,14 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 import Google from "next-auth/providers/google";
 import { createGuest, getGuest } from "./data-service";
+
+declare module "next-auth" {
+    interface Session {
+        user: {
+            guestId: number | undefined;
+        } & DefaultSession["user"];
+    }
+}
 
 const authConfig = {
     providers: [
