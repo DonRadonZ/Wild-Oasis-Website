@@ -5,13 +5,11 @@ import { isWithinInterval } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useReservation } from "./ReservationContext";
+import { CabinType, SettingsType, DateRangeType } from "../_types";
 
 interface DateSelectorProps {
-  settings: {
-    minBookingLength: number;
-    maxBookingLength: number;
-  }
-  cabin: any;
+  settings: SettingsType;
+  cabin: CabinType;
   bookedDates: Array<any>;
 }
 
@@ -45,7 +43,7 @@ function DateSelector({settings, cabin, bookedDates }: DateSelectorProps) {
       <DayPicker
         className="pt-12 place-self-center"
         mode="range"
-        onSelect={setRange}
+        onSelect={(range) => setRange(range as DateRangeType)}
         selected={range}
         min={minBookingLength + 1}
         max={maxBookingLength}
