@@ -3,7 +3,7 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 
 interface Range {
-    from?: Date | undefined;
+    from: Date | undefined;
     to?: Date | undefined;
 }
 
