@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 
 interface IGuest {
   id?: number;
+  email?: string;
   created_at?: string;
   fullName?: string;
   lastName?: string
