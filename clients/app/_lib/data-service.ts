@@ -175,7 +175,7 @@ export async function createGuest(newGuest: IGuest) {
 
   return data;
 }
-
+/*
 export async function createBooking(newBooking: Booking) {
   const { data, error } = await supabase
     .from('bookings')
@@ -191,6 +191,7 @@ export async function createBooking(newBooking: Booking) {
 
   return data;
 }
+*/
 
 /////////////
 // UPDATE
@@ -212,20 +213,20 @@ export async function updateGuest(id: string, updatedFields: any) {
 }
 */
 
-export async function updateBooking(id: string, updatedFields: any) {
-  const { data, error } = await supabase
-    .from('bookings')
-    .update(updatedFields)
-    .eq('id', id)
-    .select()
-    .single();
+// export async function updateBooking(id: string, updatedFields: any) {
+//   const { data, error } = await supabase
+//     .from('bookings')
+//     .update(updatedFields)
+//     .eq('id', id)
+//     .select()
+//     .single();
 
-  if (error) {
-    console.error(error);
-    throw new Error('Booking could not be updated');
-  }
-  return data;
-}
+//   if (error) {
+//     console.error(error);
+//     throw new Error('Booking could not be updated');
+//   }
+//   return data;
+// }
 
 /////////////
 // DELETE
