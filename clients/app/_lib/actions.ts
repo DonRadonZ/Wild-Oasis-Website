@@ -29,7 +29,9 @@ export async function updateGuest(formData) {
 }
 
 export async function updateReservation(formData) {
-  const bookingId = formData.get("bookingId");
+
+  
+  const bookingId = Number(formData.get("bookingId"));
 
   // 1) Authentication
   const session = await auth();
@@ -39,10 +41,6 @@ export async function updateReservation(formData) {
   const guestBookings = await getBookings(session.user.guestId);
   const guestBookingIds = guestBookings.map((booking) => booking.id);
 
-  // Logging for debugging
-  console.log("Session User Guest ID:", session.user.guestId);
-  console.log("Booking ID from formData:", bookingId);
-  console.log("Guest Booking IDs:", guestBookingIds);
 
   if (!guestBookingIds.includes(bookingId)) throw new Error("You are not allowed to update this booking");
 
@@ -72,7 +70,34 @@ export async function updateReservation(formData) {
   redirect("/account/reservations");
 }
 
+export async function createReservation(bookingData ,formData) {
+    const session = await auth();
+    if (!session) throw new Error("You must be logged in");
+
+    const newBooking = {
+        ...bookingData,
+        guestId: session.user.guestId,
+        numGuests: Number(formData.get("numGuests")),
+        observations: formData.get("observations").slice(0, 1000),
+        extrasPrice: 0,
+        totalPrice: bookingData.cabinPrice,
+        isPaid: false,
+        hasBreakfast: false,
+        status: "unconfirmed",
+    };
+    
+    const { error } = await supabase
+    .from("bookings").insert([newBooking]);
+    
+  if (error) {
+    throw new Error('Booking could not be created');
+  }
+
+  revalidatePath(`/cabins/${bookingData.cabinId}`);
+}
+
 export async function deleteReservation(bookingId) {
+
     const session = await auth();
     if (!session) throw new Error("You must be logged in");
     
@@ -90,6 +115,8 @@ export async function deleteReservation(bookingId) {
   }
 
   revalidatePath("/account/reservations");
+
+  redirect("/cabins/thankyou");
 }
 
 export async function signInAction() {
