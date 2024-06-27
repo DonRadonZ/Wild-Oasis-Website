@@ -3,6 +3,7 @@ import { supabase } from './supabase';
 import { Booking } from '../_components/ReservationCard';
 import { notFound } from 'next/navigation';
 
+
 interface IGuest {
   id?: number;
   email?: string;
@@ -17,7 +18,7 @@ interface IGuest {
 /////////////
 // GET
 
-export async function getCabin(id: string) {
+export async function getCabin(id: number | string) {
   const { data, error } = await supabase
     .from('cabins')
     .select('*')
@@ -35,7 +36,7 @@ export async function getCabin(id: string) {
   return data;
 }
 
-export async function getCabinPrice(id: string) {
+export async function getCabinPrice(id: number) {
   const { data, error } = await supabase
     .from('cabins')
     .select('regularPrice, discount')
@@ -75,7 +76,7 @@ export async function getGuest(email: string | undefined | null) {
   return data;
 }
 
-export async function getBooking(id: string) {
+export async function getBooking(id: number| string) {
   const { data, error, count } = await supabase
     .from('bookings')
     .select('*')
@@ -90,7 +91,7 @@ export async function getBooking(id: string) {
   return data;
 }
 
-export async function getBookings(guestId: string) {
+export async function getBookings(guestId: string| number) {
   const { data, error, count } = await supabase
     .from('bookings')
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
@@ -193,7 +194,7 @@ export async function createBooking(newBooking: Booking) {
 
 /////////////
 // UPDATE
-
+/*
 // The updatedFields is an object which should ONLY contain the updated data
 export async function updateGuest(id: string, updatedFields: any) {
   const { data, error } = await supabase
@@ -209,6 +210,7 @@ export async function updateGuest(id: string, updatedFields: any) {
   }
   return data;
 }
+*/
 
 export async function updateBooking(id: string, updatedFields: any) {
   const { data, error } = await supabase
@@ -228,12 +230,12 @@ export async function updateBooking(id: string, updatedFields: any) {
 /////////////
 // DELETE
 
-export async function deleteBooking(id: string) {
-  const { data, error } = await supabase.from('bookings').delete().eq('id', id);
+// export async function deleteBooking(id: string) {
+//   const { data, error } = await supabase.from('bookings').delete().eq('id', id);
 
-  if (error) {
-    console.error(error);
-    throw new Error('Booking could not be deleted');
-  }
-  return data;
-}
+//   if (error) {
+//     console.error(error);
+//     throw new Error('Booking could not be deleted');
+//   }
+//   return data;
+// }
