@@ -116,8 +116,8 @@ Use examples liberally, and show the expected output if you can. It's helpful to
 <!-- ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc. -->
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+<!-- ## Roadmap
+If you have ideas for releases in the future, it is a good idea to list them in the README. -->
 
 <!-- ## Contributing
 State if you are open to contributions and what your requirements are for accepting them.
