@@ -4,6 +4,7 @@ import { differenceInDays } from "date-fns";
 import { useReservation } from "./ReservationContext";
 import { createReservation } from "../_lib/actions";
 import SubmitButton from "./SubmitButton";
+import Image from "next/image";
 
 
 function ReservationForm({ cabin, user }: any) {
@@ -11,10 +12,10 @@ function ReservationForm({ cabin, user }: any) {
     const {range, resetRange } = useReservation();
     const {maxCapacity, regularPrice, discount, id } = cabin;
 
-    const startDate = range.from;
-    const endDate = range.to;
+    const startDate = range?.from;
+    const endDate = range?.to;
 
-    const numNights = differenceInDays(endDate, startDate);
+    const numNights = endDate && startDate ? differenceInDays(endDate, startDate) : 0;
     const cabinPrice = numNights * (regularPrice - discount )
 
     const bookingData = {
@@ -33,19 +34,21 @@ function ReservationForm({ cabin, user }: any) {
           <p>Logged in as</p>
   
           <div className='flex gap-4 items-center'>
-            <img
+            <div className="relative h-8 w-8">
+            <Image
               // Important to display google profile images
+              fill
               referrerPolicy='no-referrer'
-              className='h-8 rounded-full'
+              className='rounded-full'
               src={user.image}
               alt={user.name}
             />
+            </div>
             <p>{user.name}</p>
           </div>
         </div>
             
-        <p>{String(range.from)} to {String(range.to)}</p>
-
+      
         <form 
         // action={createBookingWithData}
         action={async (formData) => {

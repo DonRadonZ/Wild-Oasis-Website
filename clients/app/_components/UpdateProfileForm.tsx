@@ -1,18 +1,17 @@
-"use client"
+'use client';
 
 import { ReactNode } from "react";
 import { updateGuest } from "../_lib/actions";
 import { useFormStatus } from "react-dom";
 import SubmitButton from "./SubmitButton";
+import Image from "next/image";
+import { Guest } from "../_types";
 
 
 
-export default async function UpdateProfileForm({children,guest}:{children: ReactNode; }) {
+export default function UpdateProfileForm({children,guest}:{children: ReactNode; guest: Guest }) {
 
   const {fullName, email, nationality, nationalID, countryFlag} = guest;
-
- 
-
 
   return (
     <form
@@ -42,10 +41,12 @@ export default async function UpdateProfileForm({children,guest}:{children: Reac
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label htmlFor="nationality">Where are you from?</label>
-            <img
-              src={countryFlag}
+            <Image
+              src={countryFlag || ''}
               alt="Country flag"
               className="h-5 rounded-sm"
+              width={30}
+              height={30}
             />
           </div>
 

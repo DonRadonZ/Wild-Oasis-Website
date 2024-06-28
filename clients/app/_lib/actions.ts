@@ -5,16 +5,19 @@ import {auth ,signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { getBookings } from "./data-service";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
-export async function updateGuest(formData) {
+export async function updateGuest(formData: FormData) {
     const session = await auth();
     if (!session) throw new Error("You must be logged in");
   
-    const nationalID = formData.get("nationalID");
-    const [nationality, countryFlag] = formData.get("nationality").split("%");
+    const nationalID = z.string().min(6).max(12).regex(/^[a-zA-Z0-9]{6,12}$/,{message:"Please provide a valid national ID"}).parse(formData.get("nationalID"));
+
+    const nationalityFormData = z.string().parse(formData.get("nationality"))
+
+    const [nationality, countryFlag] = nationalityFormData.split("%");
   
-    if (!/^[a-zA-Z0-9]{6,12}$/.test(nationalID))
-      throw new Error("Please provide a valid national ID");
+    
   
     const updateData = { nationality, countryFlag, nationalID };
   
@@ -28,7 +31,7 @@ export async function updateGuest(formData) {
     revalidatePath("/account/profile");
 }
 
-export async function updateReservation(formData) {
+export async function updateReservation(formData: FormData) {
 
   
   const bookingId = Number(formData.get("bookingId"));
@@ -45,9 +48,12 @@ export async function updateReservation(formData) {
   if (!guestBookingIds.includes(bookingId)) throw new Error("You are not allowed to update this booking");
 
   // 3) Building update data
+
+  const observations = z.string().parse(formData.get("observations"))
+
   const updateData = {
     numGuests: Number(formData.get("numGuests")),
-    observations: formData.get("observations").slice(0, 1000)
+    observations: observations.slice(0, 1000)
   };
 
   // 4) Mutation
@@ -70,15 +76,24 @@ export async function updateReservation(formData) {
   redirect("/account/reservations");
 }
 
-export async function createReservation(bookingData ,formData) {
+export async function createReservation(bookingData:{
+  startDate: Date | undefined;
+  endDate: Date | undefined;
+   numNights: number;
+   cabinPrice: number;
+   cabinId: number;
+} ,formData: FormData
+) {
     const session = await auth();
     if (!session) throw new Error("You must be logged in");
+
+    const observations = formData.get("observations");
 
     const newBooking = {
         ...bookingData,
         guestId: session.user.guestId,
         numGuests: Number(formData.get("numGuests")),
-        observations: formData.get("observations").slice(0, 1000),
+        observations: observations?.slice(0, 1000),
         extrasPrice: 0,
         totalPrice: bookingData.cabinPrice,
         isPaid: false,
@@ -96,7 +111,7 @@ export async function createReservation(bookingData ,formData) {
   revalidatePath(`/cabins/${bookingData.cabinId}`);
 }
 
-export async function deleteReservation(bookingId) {
+export async function deleteReservation(bookingId: number) {
 
     const session = await auth();
     if (!session) throw new Error("You must be logged in");

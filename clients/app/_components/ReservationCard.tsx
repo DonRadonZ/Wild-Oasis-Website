@@ -11,7 +11,7 @@ export const formatDistanceFromNow = (dateStr: string) =>
   }).replace('about ', '');
 
 export interface Booking {
-    id?: any;
+    id: number;
     guestId?: string;
     startDate?: any;
     endDate?: any;
@@ -26,11 +26,12 @@ export interface Booking {
     }
 }
 
-interface BookingProps {
-    booking: Booking
-}
 
-function ReservationCard({ booking }: BookingProps) {
+
+function ReservationCard({ booking, onDelete }:{
+  booking: Booking;
+  onDelete: (id: number) => Promise<void>;
+}) {
   const {
     id,
     guestId,
@@ -101,7 +102,7 @@ function ReservationCard({ booking }: BookingProps) {
           <PencilSquareIcon className='h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors' />
           <span className='mt-1'>Edit</span>
         </Link>
-        <DeleteReservation bookingId={id} />
+        <DeleteReservation onDelete={onDelete} bookingId={id} />
         </>) : null}
       </div>
     </div>

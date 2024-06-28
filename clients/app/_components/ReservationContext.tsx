@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { DateRange } from "react-day-picker";
 
 interface Range {
     from: Date | undefined;
@@ -8,8 +9,8 @@ interface Range {
 }
 
 interface ReservationContextType {
-    range: Range;
-    setRange: Dispatch<SetStateAction<Range>>;
+    range: DateRange | undefined;
+    setRange: (d: DateRange | undefined) => void;
     resetRange: () => void;
 }
 
@@ -19,7 +20,7 @@ const ReservationContext = createContext<ReservationContextType | undefined>(und
 const initialState = { from: undefined, to: undefined };
 
 function ReservationProvider({children}: {children: ReactNode}){
-    const [range, setRange] = useState<Range>(initialState);
+    const [range, setRange] = useState<DateRange | undefined>(initialState);
     const resetRange = () => setRange(initialState);
 
         return(

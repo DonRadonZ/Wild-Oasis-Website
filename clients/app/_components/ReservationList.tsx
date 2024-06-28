@@ -4,17 +4,18 @@ import { useOptimistic } from "react";
 
 import ReservationCard from "./ReservationCard";
 import { deleteReservation } from "../_lib/actions";
+import { Bookings } from "../_types";
 
 
-export default function ReservationList({bookings}) {
+export default function ReservationList({bookings}: {bookings: Bookings[]}) {
   const [optimisticBookings, optimisticDelete]  = useOptimistic(
     bookings, 
-    (curBookings, bookingId) => {
+    (curBookings, bookingId: number) => {
         return curBookings.filter(booking => booking.id !== bookingId);
     }
   );
 
-  async function handleDelete(bookingId) {
+  async function handleDelete(bookingId: number) {
     optimisticDelete(bookingId);
     await deleteReservation(bookingId);
   }

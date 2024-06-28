@@ -2,11 +2,19 @@ import React from 'react'
 import Image from 'next/image'
 import TextExpander from './TextExpander'
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from '@heroicons/react/24/solid';
+import { CabinType } from '../_types';
 
 
-function Cabin({cabin}) {
-    const { id, name, maxCapacity, regularPrice, discount, image, description } =
-    cabin;
+function Cabin({cabin}: {cabin: CabinType}) {
+    const { 
+      id, 
+      name, 
+      maxCapacity, 
+      regularPrice, 
+      discount, 
+      image, 
+      description
+    } = cabin;
 
   return (
     <div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
