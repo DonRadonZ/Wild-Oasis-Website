@@ -27,7 +27,19 @@ Website for Guest for who want to booking and learn about hotel and use for brow
 
 
 ## 📸 Screenshot
+<div align="center">
+<img src="/screenshot/homepage.png
+">
+<img src="/screenshot/Cabin.png
+">
+<img src="/screenshot/cabinpage.png
+">
+<img src="/screenshot/About.png
+">
+<img src="/screenshot/reservations.png
+">
 
+</div>
 
 ## Key Features
 
