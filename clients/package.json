@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.1.4",
     "@supabase/supabase-js": "^2.43.5",
+    "cypress": "^13.13.0",
     "date-fns": "^3.6.0",
     "next": "14.2.4",
     "next-auth": "^5.0.0-beta.19",
