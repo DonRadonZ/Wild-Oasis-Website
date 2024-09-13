@@ -10,9 +10,9 @@
 
 <a href="https://wild-oasis-website-rosy.vercel.app/">View Demo</a>
 •
-<a href="https://github.com/DonRadonZ/E-commerce-Dashboard/issues">Report Bug</a>
+<a href="https://github.com/DonRadonZ/Wild-Oasis-Website/issues">Report Bug</a>
 •
-<a href="https://github.com/DonRadonZ/E-commerce-Dashboard/pulls">Request new feature</a>
+<a href="https://github.com/DonRadonZ/Wild-Oasis-Website/pulls">Request new feature</a>
 
 </div>
 
